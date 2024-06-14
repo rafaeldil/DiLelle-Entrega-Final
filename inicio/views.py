@@ -14,7 +14,7 @@ def crear_libro(request):
             datos = form.cleaned_data
             libro = Libro(nombre=datos.get('nombre'), genero=datos.get('genero'), precio=datos.get('precio'))
             libro.save()
-            return redirect('lista_libros') 
+            return redirect('/libros') 
     else:
         form = CrearLibroForm()
 
@@ -28,7 +28,7 @@ def crear_cliente(request):
             datos = form.cleaned_data
             cliente = Cliente(nombre=datos.get('nombre'), direccion=datos.get('direccion'), telefono=datos.get('telefono'))
             cliente.save()
-            return redirect('inicio') 
+            return redirect('/clientes') 
     else:
         form = CrearClienteForm()
 
