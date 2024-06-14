@@ -8,6 +8,14 @@ Crear Libro
 Creacion de un nuevo libro
 {% endblock h1_header %}
 
+
 {% block main %}
-Se creo el libro: {{libro.nombre}}
+<form action= {% url "crear_libro" %} method="POST">
+    {% csrf_token %}
+
+    {{form}}
+
+    <input type="submit" value='Enviar'>
+</form>
+
 {% endblock main %}

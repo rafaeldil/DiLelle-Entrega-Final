@@ -5,7 +5,7 @@ Clientes
 {% endblock title_head %}
 
 {% block h1_header %}
-Lista de clientes:
+Lista de clientes
 {% endblock h1_header %}
 
 {% block main %}
@@ -15,8 +15,8 @@ Lista de clientes:
     <p>No hay clientes creados</p>
     {% endif %}
     <ul> 
-        {% for libro in clientes %}
-        <li> {{libro}} </li>
+        {% for cliente in clientes %}
+        <li> {{cliente}} </li>
         {% endfor %}
     </ul>
 
