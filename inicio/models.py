@@ -7,7 +7,7 @@ class Libro(models.Model):
     genero = models.CharField(max_length=20) 
     precio = models.CharField(max_length=20)  
     def __str__(self):
-        return f'Libro: self.nombre \n Genero: self.genero \n Precio: self.precio'
+        return f'Libro: {self.nombre} \n Genero: {self.genero} \n Precio: {self.precio}'
     
 
 class Cliente(models.Model):
@@ -16,4 +16,4 @@ class Cliente(models.Model):
     telefono = models.CharField(max_length=20)
 
     def __str__(self):
-        return f'Cliente: self.nombre \n Direccion: self.direccion \n Telefono: self.telefono'
+        return f'Cliente: {self.nombre} \n Direccion: {self.direccion} \n Telefono: {self.telefono}'
