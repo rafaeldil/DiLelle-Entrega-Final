@@ -9,6 +9,9 @@ Lista de clientes
 {% endblock h1_header %}
 
 {% block main %}
+
+<a href="{% url 'crear_cliente' %}"> Crear Cliente </a>
+
     {% if clientes %}
 
     {% else %}

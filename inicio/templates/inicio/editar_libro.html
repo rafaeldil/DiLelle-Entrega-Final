@@ -1,0 +1,21 @@
+ {% extends "base.html" %}
+
+{% block title_head %}
+Editar Libro
+{% endblock title_head %}
+
+{% block h1_header %}
+Edicion de {{libro.nombre}}
+{% endblock h1_header %}
+
+
+{% block main %}
+<form action= {% url 'editar_libro' libro.id%} method="POST">
+    {% csrf_token %}
+
+    {{form}}
+
+    <input type="submit" value='Guardar Cambios'>
+</form>
+
+{% endblock main %} 

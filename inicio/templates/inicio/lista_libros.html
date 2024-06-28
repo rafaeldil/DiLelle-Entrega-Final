@@ -9,6 +9,14 @@ Lista de libros
 {% endblock h1_header %}
 
 {% block main %}
+
+<a href={% url 'crear_libro' %}> Crear Libro </a>
+
+<form action={% url "libros" %} method="get">
+    {{formulario}}
+    <input type="submit" value="Buscar">
+</form>
+
     {% if libros %}
 
     {% else %}
@@ -16,7 +24,12 @@ Lista de libros
     {% endif %}
     <ul> 
         {% for libro in libros %}
-        <li> {{libro}} </li>
+        <li> 
+            {{libro}} | 
+            <a href={% url "eliminar_libro" libro.id%} > Eliminar </a> |
+            <a href={% url "editar_libro" libro.id%}> Editar </a> |
+            <a href={% url "ver_libro" libro.id%}> Ver </a> |
+        </li>
         {% endfor %}
     </ul>
 

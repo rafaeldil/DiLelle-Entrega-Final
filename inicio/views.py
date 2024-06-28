@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from inicio.forms import CrearClienteForm, CrearLibroForm
+from django.shortcuts import render, redirect, get_object_or_404
+from inicio.forms import CrearClienteForm, CrearLibroForm, BuscarLibroForm, EditarLibroForm
 from inicio.models import Libro, Cliente
 
 # View para la página de inicio
@@ -36,10 +36,46 @@ def crear_cliente(request):
 
 # View para listar libros
 def lista_libros(request):
-    libros = Libro.objects.all()
-    return render(request, 'inicio/lista_libros.html', {'libros': libros})
+    formulario = BuscarLibroForm(request.GET)
+    # libros = Libro.objects.all() 
+    
+    if formulario.is_valid():
+        nombre = formulario.cleaned_data['nombre']
+        libros = Libro.objects.filter(nombre__icontains=nombre)
+    
+    return render(request, 'inicio/lista_libros.html', {'libros': libros, 'formulario': formulario})
 
 # View para listar clientes
 def lista_clientes(request):
     clientes = Cliente.objects.all()
     return render(request, 'inicio/lista_clientes.html', {'clientes': clientes})
+
+# View para eliminar libros
+def eliminar_libro(request, id):
+    libro = Libro.objects.get(id=id)
+    libro.delete()
+    
+    return redirect('/libros')
+
+#View para editar libros
+def editar_libro(request, id):
+    libro = Libro.objects.get(id=id)
+    
+    form = EditarLibroForm(initial={'nombre': libro.nombre, 'genero': libro.genero,'precio': libro.precio})
+    
+    if request.method == 'POST':
+        form = EditarLibroForm(request.POST)
+        if form.is_valid():
+            datos = form.cleaned_data
+            
+            libro.nombre = datos['nombre']
+            libro.genero = datos['genero']
+            libro.precio = datos['precio']
+            libro.save()
+            return redirect('libros')
+        
+    return render(request, 'inicio/editar_libro.html', {'form': form, 'libro': libro})
+
+def ver_libro(request, id):
+    libro = Libro.objects.get(id=id)
+    return render(request, 'inicio/ver_libro.html', {'libro': libro})
