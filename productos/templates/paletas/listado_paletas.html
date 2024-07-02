@@ -21,8 +21,8 @@ Lista de paletas
         {% for paleta in paletas %}
         <li> 
             {{paleta}} | 
-            {% comment %} <a href={% url "eliminar_paleta" paleta.id%} > Eliminar </a> |
-            <a href={% url "editar_paleta" paleta.id%}> Editar </a> | {% endcomment %}
+            <a href={% url "eliminar_paleta" paleta.id%} > Eliminar </a> | 
+            <a href={% url "editar_paleta" paleta.id%}> Editar </a> | 
             <a href={% url "ver_paleta" paleta.id%}> Ver </a> | 
         </li> 
         {% endfor %}
