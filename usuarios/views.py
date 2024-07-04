@@ -1,6 +1,12 @@
-from django.shortcuts import render
-from django.contrib.auth.forms import AuthenticationForm 
-
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
+from django.contrib.auth import authenticate, login as django_login
+from usuarios.forms import FormCreacion
+from django.contrib.auth.decorators import login_required
+from usuarios.forms import FormEditarPerfil
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
+from django.urls import reverse_lazy
 # Create your views here.
 
 def login(request):
@@ -10,6 +16,43 @@ def login(request):
     if request.method == 'POST':
         formulario = AuthenticationForm(request, data=request.POST)
         if formulario.is_valid():
-            ...
-    
+            username = formulario.cleaned_data.get('username')
+            password = formulario.cleaned_data.get('password')
+
+            user = authenticate(username=username, password=password)
+            
+            django_login(request, user)
+
+            return redirect('inicio')
+
     return render(request, 'usuarios/login.html', {'formulario': formulario})
+
+def signup(request):
+    
+    formulario = FormCreacion()
+    
+    if request.method == "POST":
+        formulario = FormCreacion(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('login')
+    
+    return render(request, 'usuarios/signup.html', {'formulario': formulario})
+
+@login_required
+def editar_perfil(request):
+    
+    formulario = FormEditarPerfil(instance=request.user)
+    
+    if request.method == 'POST':
+        formulario = FormEditarPerfil(request.POST, instance=request.user)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('editar_perfil')
+    
+    return render(request, 'usuarios/editar_perfil.html', {'formulario': formulario})
+
+class CambiarPassword(LoginRequiredMixin, PasswordChangeView):
+    template_name = 'usuarios/cambiar_pass.html'
+    success_url = reverse_lazy('editar_perfil')
+    form = ...

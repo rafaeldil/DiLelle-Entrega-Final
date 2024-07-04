@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from inicio.forms import CrearClienteForm, CrearLibroForm, BuscarLibroForm, EditarLibroForm
 from inicio.models import Libro, Cliente
-
+from django.contrib.auth.decorators import login_required
 # View para la página de inicio
 def inicio(request):
     return render(request, 'inicio/index.html')
 
 # View para crear un libro
+@login_required
 def crear_libro(request):
     if request.method == 'POST':
         form = CrearLibroForm(request.POST)
@@ -20,20 +21,6 @@ def crear_libro(request):
 
     return render(request, 'inicio/crear_libro.html', {'form': form})
 
-# View para crear un cliente
-def crear_cliente(request):
-    if request.method == 'POST':
-        form = CrearClienteForm(request.POST)
-        if form.is_valid():
-            datos = form.cleaned_data
-            cliente = Cliente(nombre=datos.get('nombre'), direccion=datos.get('direccion'), telefono=datos.get('telefono'))
-            cliente.save()
-            return redirect('/clientes') 
-    else:
-        form = CrearClienteForm()
-
-    return render(request, 'inicio/crear_cliente.html', {'form': form})
-
 # View para listar libros
 def lista_libros(request):
     formulario = BuscarLibroForm(request.GET)
@@ -45,12 +32,9 @@ def lista_libros(request):
     
     return render(request, 'inicio/lista_libros.html', {'libros': libros, 'formulario': formulario})
 
-# View para listar clientes
-def lista_clientes(request):
-    clientes = Cliente.objects.all()
-    return render(request, 'inicio/lista_clientes.html', {'clientes': clientes})
 
 # View para eliminar libros
+@login_required
 def eliminar_libro(request, id):
     libro = Libro.objects.get(id=id)
     libro.delete()
@@ -58,6 +42,7 @@ def eliminar_libro(request, id):
     return redirect('/libros')
 
 #View para editar libros
+@login_required
 def editar_libro(request, id):
     libro = Libro.objects.get(id=id)
     
@@ -79,3 +64,25 @@ def editar_libro(request, id):
 def ver_libro(request, id):
     libro = Libro.objects.get(id=id)
     return render(request, 'inicio/ver_libro.html', {'libro': libro})
+
+
+# View para crear un cliente
+@login_required
+def crear_cliente(request):
+    if request.method == 'POST':
+        form = CrearClienteForm(request.POST)
+        if form.is_valid():
+            datos = form.cleaned_data
+            cliente = Cliente(nombre=datos.get('nombre'), direccion=datos.get('direccion'), telefono=datos.get('telefono'))
+            cliente.save()
+            return redirect('/clientes') 
+    else:
+        form = CrearClienteForm()
+
+    return render(request, 'inicio/crear_cliente.html', {'form': form})
+
+
+# View para listar clientes
+def lista_clientes(request):
+    clientes = Cliente.objects.all()
+    return render(request, 'inicio/lista_clientes.html', {'clientes': clientes})
