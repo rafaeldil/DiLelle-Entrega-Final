@@ -7,6 +7,7 @@ from usuarios.forms import FormEditarPerfil
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
+from usuarios.models import DatosExtra
 # Create your views here.
 
 def login(request):
@@ -22,6 +23,8 @@ def login(request):
             user = authenticate(username=username, password=password)
             
             django_login(request, user)
+
+            DatosExtra.objects.get_or_create(user=user)
 
             return redirect('inicio')
 
@@ -42,11 +45,13 @@ def signup(request):
 @login_required
 def editar_perfil(request):
     
-    formulario = FormEditarPerfil(instance=request.user)
+    formulario = FormEditarPerfil(initial={'avatar': request.user.datosextra.avatar},instance=request.user)
     
     if request.method == 'POST':
-        formulario = FormEditarPerfil(request.POST, instance=request.user)
+        formulario = FormEditarPerfil(request.POST, request.FILES, instance=request.user)
         if formulario.is_valid():
+            request.user.datosextra.avatar = formulario.cleaned_data.get('avatar')
+            request.user.datosextra.save()
             formulario.save()
             return redirect('editar_perfil')
     
