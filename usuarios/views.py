@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.contrib.auth import authenticate, login as django_login
 from usuarios.forms import FormCreacion, FormEditarPerfil, FormCambiarAvatar
@@ -43,18 +43,8 @@ def signup(request):
 
 @login_required
 def perfil(request):
-    
-    formulario = FormEditarPerfil(initial={'avatar': request.user.datosextra.avatar},instance=request.user)
-    
-    if request.method == 'POST':
-        formulario = FormEditarPerfil(request.POST, request.FILES, instance=request.user)
-        if formulario.is_valid():
-            request.user.datosextra.avatar = formulario.cleaned_data.get('avatar')
-            request.user.datosextra.save()
-            formulario.save()
-            return redirect('perfil')
-    
-    return render(request, 'usuarios/perfil.html', {'formulario': formulario})
+    usuario = request.user
+    return render(request, 'usuarios/perfil.html', {'usuario': usuario})
 
 
 
@@ -71,7 +61,7 @@ def editar_perfil(request):
             formulario.save()
             return redirect('editar_perfil')
     
-    return render(request, 'usuarios/perfil.html', {'formulario': formulario})
+    return render(request, 'usuarios/editar_perfil.html', {'formulario': formulario})
 
 class CambiarPassword(LoginRequiredMixin, PasswordChangeView):
     template_name = 'usuarios/cambiar_pass.html'

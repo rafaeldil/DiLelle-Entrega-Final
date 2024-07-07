@@ -20,6 +20,12 @@
         <br>
     </div>
     <div class="col-md-8">
+        <h4>Sinopsis:</h4> 
+        <p> 
+            {{ libro.sinopsis }}
+        </p>
+    </div>
+    <div>
         <h4>Detalles:</h4>
         <ul>
             <li><strong>Nombre:</strong> {{ libro.nombre }}</li>
@@ -27,11 +33,6 @@
             <li><strong>Precio:</strong> {{ libro.precio }}</li>
             <li><strong>Fecha de Lanzamiento:</strong> {{ libro.fecha_lanzamiento }}</li>
         </ul>
-    </div>
-    <div>
-        <p> 
-            <strong>Sinopsis:</strong> {{ libro.sinopsis }}
-        </p>
     </div>
 
 </div>

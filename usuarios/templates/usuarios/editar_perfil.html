@@ -10,13 +10,14 @@ Editar Perfil: {{user}}
 
 
 {% block main %}
+<a href="{% url "perfil" %}"> Volver al Perfil </a>
 
 <form action= {% url "editar_perfil" %} method="POST" enctype='multipart/form-data'>
     {% csrf_token %}
 
     {{formulario}}
 
-    <input type="submit" value='Editar'>
+    <input type="submit" value='Guardar cambios'>
 </form>
 <a href={% url "cambiar_pass" %}>Cambiar Contrasena</a>
 
