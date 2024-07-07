@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title_head %}
+Actualizar Portada
+{% endblock title_head %}
+
+{% block h1_header %}
+Actualizar Portada
+{% endblock h1_header %}
+
+{% block main %}
+<h4>{{ libro.nombre }}</h4>
+{% if libro.portada %}
+    <img src="{{ libro.portada.url }}" alt="Portada" class="img-fluid" style="height: 300px">
+{% else %}
+    <p>No hay portada disponible para este libro</p>
+{% endif %}
+
+<form action="{% url 'portada' libro.id %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+        {{form}}
+    </div>
+    <input type="submit" class="btn btn-primary" value="Guardar Cambios">
+</form>
+{% endblock main %}

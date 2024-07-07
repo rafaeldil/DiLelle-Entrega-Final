@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from inicio.forms import CrearClienteForm, CrearLibroForm, BuscarLibroForm, EditarLibroForm
+from inicio.forms import CrearClienteForm, CrearLibroForm, BuscarLibroForm, EditarLibroForm, PortadaForm
 from inicio.models import Libro, Cliente
 from django.contrib.auth.decorators import login_required
 # View para la página de inicio
@@ -64,6 +64,20 @@ def editar_libro(request, id):
 def ver_libro(request, id):
     libro = Libro.objects.get(id=id)
     return render(request, 'inicio/ver_libro.html', {'libro': libro})
+
+def portada(request, id):
+    libro = Libro.objects.get(id=id)
+
+    if request.method == 'POST':
+        form = PortadaForm(request.POST, request.FILES, instance=libro)
+        if form.is_valid():
+            form.save()
+            return redirect('ver_libro', libro_id=libro.id)
+    else:
+        form = PortadaForm(instance=libro)
+   
+    return render(request, 'inicio/portada.html', {'libro': libro})    
+
 
 
 # View para crear un cliente

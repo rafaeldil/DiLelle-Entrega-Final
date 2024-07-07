@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.contrib.auth import authenticate, login as django_login
-from usuarios.forms import FormCreacion
+from usuarios.forms import FormCreacion, FormEditarPerfil, FormCambiarAvatar
 from django.contrib.auth.decorators import login_required
-from usuarios.forms import FormEditarPerfil
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
@@ -43,6 +42,23 @@ def signup(request):
     return render(request, 'usuarios/signup.html', {'formulario': formulario})
 
 @login_required
+def perfil(request):
+    
+    formulario = FormEditarPerfil(initial={'avatar': request.user.datosextra.avatar},instance=request.user)
+    
+    if request.method == 'POST':
+        formulario = FormEditarPerfil(request.POST, request.FILES, instance=request.user)
+        if formulario.is_valid():
+            request.user.datosextra.avatar = formulario.cleaned_data.get('avatar')
+            request.user.datosextra.save()
+            formulario.save()
+            return redirect('perfil')
+    
+    return render(request, 'usuarios/perfil.html', {'formulario': formulario})
+
+
+
+@login_required
 def editar_perfil(request):
     
     formulario = FormEditarPerfil(initial={'avatar': request.user.datosextra.avatar},instance=request.user)
@@ -61,3 +77,19 @@ class CambiarPassword(LoginRequiredMixin, PasswordChangeView):
     template_name = 'usuarios/cambiar_pass.html'
     success_url = reverse_lazy('editar_perfil')
     form = ...
+    
+@login_required
+def cambiar_avatar(request):
+    usuario = request.user
+    datos_extra, created = DatosExtra.objects.get_or_create(user=usuario)
+    
+    if request.method == 'POST':
+        form = FormCambiarAvatar(request.POST, request.FILES, instance=datos_extra)
+        if form.is_valid():
+            form.save()
+            return redirect('cambiar_avatar')
+    else:
+        form = FormCambiarAvatar(instance=datos_extra)
+    
+    return render(request, 'usuarios/avatar.html', {'formulario_de_avatar': form})
+

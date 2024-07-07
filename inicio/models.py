@@ -6,6 +6,7 @@ class Libro(models.Model):
     nombre = models.CharField(max_length=20)
     genero = models.CharField(max_length=20) 
     precio = models.CharField(max_length=20)  
+    portada = models.ImageField(upload_to='portadas/', null=True, blank=True)
     def __str__(self):
         return f'Libro: {self.nombre} \n Genero: {self.genero} \n Precio: {self.precio}'
     

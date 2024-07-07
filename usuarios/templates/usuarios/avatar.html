@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title_head %}
+Cambiar Avatar
+{% endblock title_head %}
+
+{% block h1_header %}
+Cambiar Avatar
+{% endblock h1_header %}
+
+
+{% block main %}
+ <div class="row">
+    <div class="col-md-4">
+
+        <h4>Avatar Actual:</h4>
+        {% if request.user.datosextra.avatar %}
+        <img src="{{ request.user.datosextra.avatar.url }}" alt="Avatar" class="img-fluid" style='height: 300px'>
+        {% else %}
+        <p>No hay avatar seleccionado.</p>
+        {% endif %}
+    </div>
+    <div class="col-md-8">
+
+        <form action="{% url 'cambiar_avatar' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h4>Cambiar Avatar:</h4>
+            {{ formulario_de_avatar }}
+            <br>
+            <input type="submit" class="btn btn-primary mt-3" value="Guardar Cambios">
+        </form>
+    </div>
+</div>
+{% endblock main %}

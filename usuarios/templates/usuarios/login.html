@@ -10,9 +10,7 @@ Iniciar Sesion
 
 
 {% block main %}
-{% comment %} 
-<a class='btn btn-warning' href={% url 'signup' %}> Sign Up </a>
- {% endcomment %}
+
 <form action= {% url "login" %} method="POST">
     {% csrf_token %}
 

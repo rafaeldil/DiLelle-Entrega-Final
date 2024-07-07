@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title_head %}
-Libros
+{{libro.nombre}}
 {% endblock title_head %}
 
 {% block h1_header %}
@@ -10,8 +10,15 @@ Libros
 
 {% block main %}
 <ul>
-    <li> Nombre: {{libro.nombre}} </li>
-    <li> Genero: {{libro.genero}} </li>
-    <li> Precio: {{libro.precio}} </li>
+    <li> Nombre: {{ libro.nombre }} </li>
+    <li> Género: {{ libro.genero }} </li>
+    <li> Precio: {{ libro.precio }} </li>
+    <li> <a href="{% url 'portada' libro.id %}">Editar Portada</a> </li>
 </ul>
+
+{% if libro.portada %}
+    <img src="{{ libro.portada.url }}" alt="Portada" height="80px">
+{% else %}
+    <p>No hay portada disponible para este libro</p>
+{% endif %}
 {% endblock main %}

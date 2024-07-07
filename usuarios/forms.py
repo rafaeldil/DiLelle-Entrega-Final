@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
+from usuarios.models import DatosExtra
 
 
 class FormCreacion(UserCreationForm):
@@ -18,9 +19,15 @@ class FormEditarPerfil(UserChangeForm):
     email = forms.EmailField()
     first_name = forms.CharField(label='Nombre')
     last_name = forms.CharField(label='Apellido')
-    avatar = forms.ImageField(required=False) 
+    avatar = forms.ImageField(required=False, widget=forms.FileInput) 
     
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'avatar',] 
-        
+
+class FormCambiarAvatar(forms.ModelForm):
+    avatar = forms.ImageField(required=False, widget=forms.FileInput) 
+    
+    class Meta:
+        model = DatosExtra
+        fields = ['avatar']
