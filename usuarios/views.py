@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.contrib.auth import authenticate, login as django_login
-from usuarios.forms import FormCreacion, FormEditarPerfil, FormCambiarAvatar
+from usuarios.forms import FormCreacion, FormEditarPerfil, DatosExtraForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
@@ -44,7 +44,7 @@ def signup(request):
 @login_required
 def perfil(request):
     usuario = request.user
-    return render(request, 'usuarios/perfil.html', {'usuario': usuario})
+    return render(request, 'usuarios/perfil.html', {'usuario': usuario, 'fecha_nacimiento': request.user.datosextra.fecha_nacimiento})
 
 
 
@@ -57,6 +57,7 @@ def editar_perfil(request):
         formulario = FormEditarPerfil(request.POST, request.FILES, instance=request.user)
         if formulario.is_valid():
             request.user.datosextra.avatar = formulario.cleaned_data.get('avatar')
+            request.user.datosextra.fecha_nacimiento = formulario.cleaned_data.get('fecha_nacimiento')
             request.user.datosextra.save()
             formulario.save()
             return redirect('editar_perfil')
@@ -74,12 +75,12 @@ def cambiar_avatar(request):
     datos_extra, created = DatosExtra.objects.get_or_create(user=usuario)
     
     if request.method == 'POST':
-        form = FormCambiarAvatar(request.POST, request.FILES, instance=datos_extra)
+        form = DatosExtraForm(request.POST, request.FILES, instance=datos_extra)
         if form.is_valid():
             form.save()
             return redirect('cambiar_avatar')
     else:
-        form = FormCambiarAvatar(instance=datos_extra)
+        form = DatosExtraForm(instance=datos_extra)
     
     return render(request, 'usuarios/avatar.html', {'formulario_de_avatar': form})
 

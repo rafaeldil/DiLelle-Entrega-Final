@@ -81,24 +81,28 @@ def portada(request, id):
     return render(request, 'inicio/portada.html', {'libro': libro, 'form_portada': form})    
 
 
-
-# View para crear un cliente
-@login_required
-def crear_cliente(request):
-    if request.method == 'POST':
-        form = CrearClienteForm(request.POST)
-        if form.is_valid():
-            datos = form.cleaned_data
-            cliente = Cliente(nombre=datos.get('nombre'), direccion=datos.get('direccion'), telefono=datos.get('telefono'))
-            cliente.save()
-            return redirect('/clientes') 
-    else:
-        form = CrearClienteForm()
-
-    return render(request, 'inicio/crear_cliente.html', {'form': form})
+def about_me(request):
+    return render (request, 'inicio/about_me.html')
 
 
-# View para listar clientes
-def lista_clientes(request):
-    clientes = Cliente.objects.all()
-    return render(request, 'inicio/lista_clientes.html', {'clientes': clientes})
+
+# # View para crear un cliente
+# @login_required
+# def crear_cliente(request):
+#     if request.method == 'POST':
+#         form = CrearClienteForm(request.POST)
+#         if form.is_valid():
+#             datos = form.cleaned_data
+#             cliente = Cliente(nombre=datos.get('nombre'), direccion=datos.get('direccion'), telefono=datos.get('telefono'))
+#             cliente.save()
+#             return redirect('/clientes') 
+#     else:
+#         form = CrearClienteForm()
+
+#     return render(request, 'inicio/crear_cliente.html', {'form': form})
+
+
+# # View para listar clientes
+# def lista_clientes(request):
+#     clientes = Cliente.objects.all()
+#     return render(request, 'inicio/lista_clientes.html', {'clientes': clientes})

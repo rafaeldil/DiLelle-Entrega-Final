@@ -20,14 +20,15 @@ class FormEditarPerfil(UserChangeForm):
     first_name = forms.CharField(label='Nombre')
     last_name = forms.CharField(label='Apellido')
     avatar = forms.ImageField(required=False, widget=forms.FileInput) 
+    fecha_nacimiento = forms.DateField(required=False, widget=forms.DateInput)
     
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'avatar',] 
+        fields = ['first_name', 'last_name', 'email'] 
 
-class FormCambiarAvatar(forms.ModelForm):
+class DatosExtraForm(forms.ModelForm):
     avatar = forms.ImageField(required=False, widget=forms.FileInput) 
     
     class Meta:
         model = DatosExtra
-        fields = ['avatar']
+        fields = ['avatar', 'fecha_nacimiento']
