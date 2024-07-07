@@ -13,7 +13,7 @@ def crear_libro(request):
         form = CrearLibroForm(request.POST)
         if form.is_valid():
             datos = form.cleaned_data
-            libro = Libro(nombre=datos.get('nombre'), genero=datos.get('genero'), precio=datos.get('precio'))
+            libro = Libro(nombre=datos.get('nombre'), genero=datos.get('genero'), precio=datos.get('precio'), fecha_lanzamiento=datos.get('fecha_lanzamiento'), sinopsis=datos.get('sinopsis'))
             libro.save()
             return redirect('/libros') 
     else:
@@ -46,7 +46,7 @@ def eliminar_libro(request, id):
 def editar_libro(request, id):
     libro = Libro.objects.get(id=id)
     
-    form = EditarLibroForm(initial={'nombre': libro.nombre, 'genero': libro.genero,'precio': libro.precio})
+    form = EditarLibroForm(initial={'nombre': libro.nombre, 'genero': libro.genero,'precio': libro.precio, 'fecha_lanzamiento': libro.fecha_lanzamiento, 'sinopsis': libro.sinopsis})
     
     if request.method == 'POST':
         form = EditarLibroForm(request.POST)
@@ -56,8 +56,10 @@ def editar_libro(request, id):
             libro.nombre = datos['nombre']
             libro.genero = datos['genero']
             libro.precio = datos['precio']
+            libro.fecha_lanzamiento = datos['fecha_lanzamiento']
+            libro.sinopsis = datos['sinopsis']
             libro.save()
-            return redirect('libros')
+            return redirect('ver_libro', id=libro.id)
         
     return render(request, 'inicio/editar_libro.html', {'form': form, 'libro': libro})
 
@@ -72,11 +74,11 @@ def portada(request, id):
         form = PortadaForm(request.POST, request.FILES, instance=libro)
         if form.is_valid():
             form.save()
-            return redirect('ver_libro', libro_id=libro.id)
+            return redirect('ver_libro', id=libro.id)
     else:
         form = PortadaForm(instance=libro)
    
-    return render(request, 'inicio/portada.html', {'libro': libro})    
+    return render(request, 'inicio/portada.html', {'libro': libro, 'form_portada': form})    
 
 
 

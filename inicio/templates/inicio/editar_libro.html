@@ -14,8 +14,9 @@ Edicion de {{libro.nombre}}
     {% csrf_token %}
 
     {{form}}
-
     <input type="submit" value='Guardar Cambios'>
+    <br>
+    <a href="{% url 'portada' libro.id %}" class="btn btn-danger mt-3">Editar Portada</a>
 </form>
 
 {% endblock main %} 

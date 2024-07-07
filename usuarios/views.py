@@ -71,7 +71,7 @@ def editar_perfil(request):
             formulario.save()
             return redirect('editar_perfil')
     
-    return render(request, 'usuarios/editar_perfil.html', {'formulario': formulario})
+    return render(request, 'usuarios/perfil.html', {'formulario': formulario})
 
 class CambiarPassword(LoginRequiredMixin, PasswordChangeView):
     template_name = 'usuarios/cambiar_pass.html'

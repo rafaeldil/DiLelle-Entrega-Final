@@ -7,10 +7,12 @@ class LibroFormBase(forms.Form):
     precio = forms.CharField(max_length=20)
 
 class CrearLibroForm(LibroFormBase):
-    ...
-
+    fecha_lanzamiento = forms.DateField()
+    sinopsis = forms.CharField(max_length=2000)
+    
 class EditarLibroForm(LibroFormBase):
-    ...
+    fecha_lanzamiento = forms.DateField()
+    sinopsis = forms.CharField(max_length=2000)
 
 
 class BuscarLibroForm(forms.Form):

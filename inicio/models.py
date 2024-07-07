@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import date
 # Create your models here.
 
 class Libro(models.Model):
@@ -7,8 +7,10 @@ class Libro(models.Model):
     genero = models.CharField(max_length=20) 
     precio = models.CharField(max_length=20)  
     portada = models.ImageField(upload_to='portadas/', null=True, blank=True)
+    fecha_lanzamiento = models.DateField(default=date.today)
+    sinopsis = models.CharField(max_length=2000, default='No se ha creado una sinopsis para este libro')
     def __str__(self):
-        return f'Libro: {self.nombre} \n Genero: {self.genero} \n Precio: {self.precio}'
+        return f'Libro: {self.nombre}'
     
 
 class Cliente(models.Model):

@@ -1,24 +1,38 @@
 {% extends "base.html" %}
 
 {% block title_head %}
-{{libro.nombre}}
+{{ libro.nombre }}
 {% endblock title_head %}
 
 {% block h1_header %}
-{{libro.nombre}}
+{{ libro.nombre }}
 {% endblock h1_header %}
 
 {% block main %}
-<ul>
-    <li> Nombre: {{ libro.nombre }} </li>
-    <li> Género: {{ libro.genero }} </li>
-    <li> Precio: {{ libro.precio }} </li>
-    <li> <a href="{% url 'portada' libro.id %}">Editar Portada</a> </li>
-</ul>
+<div class="row">
+    <div class="col-md-4">
+        <h4>Portada:</h4>
+        {% if libro.portada %}
+        <img src="{{ libro.portada.url }}" alt="Portada" class="img-fluid" style="max-width: 100%; height: 300px;">
+        {% else %}
+        <p>No hay portada disponible para este libro.</p>
+        {% endif %}
+        <br>
+    </div>
+    <div class="col-md-8">
+        <h4>Detalles:</h4>
+        <ul>
+            <li><strong>Nombre:</strong> {{ libro.nombre }}</li>
+            <li><strong>Género:</strong> {{ libro.genero }}</li>
+            <li><strong>Precio:</strong> {{ libro.precio }}</li>
+            <li><strong>Fecha de Lanzamiento:</strong> {{ libro.fecha_lanzamiento }}</li>
+        </ul>
+    </div>
+    <div>
+        <p> 
+            <strong>Sinopsis:</strong> {{ libro.sinopsis }}
+        </p>
+    </div>
 
-{% if libro.portada %}
-    <img src="{{ libro.portada.url }}" alt="Portada" height="80px">
-{% else %}
-    <p>No hay portada disponible para este libro</p>
-{% endif %}
+</div>
 {% endblock main %}

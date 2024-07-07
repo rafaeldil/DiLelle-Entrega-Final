@@ -4,7 +4,7 @@ from inicio import views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('', views.inicio, name='inicio'),
     path('crear-cliente/', views.crear_cliente, name='crear_cliente'),
     path('crear-libro/', views.crear_libro, name='crear_libro'),

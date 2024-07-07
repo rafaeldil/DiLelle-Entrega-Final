@@ -11,7 +11,7 @@ Actualizar Portada
 {% block main %}
 <h4>{{ libro.nombre }}</h4>
 {% if libro.portada %}
-    <img src="{{ libro.portada.url }}" alt="Portada" class="img-fluid" style="height: 300px">
+    <img src="{{ libro.portada.url }}" alt="Portada" class="img-fluid" style="height: 200px">
 {% else %}
     <p>No hay portada disponible para este libro</p>
 {% endif %}
@@ -19,8 +19,9 @@ Actualizar Portada
 <form action="{% url 'portada' libro.id %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div>
-        {{form}}
+        {{form_portada}}
     </div>
     <input type="submit" class="btn btn-primary" value="Guardar Cambios">
 </form>
 {% endblock main %}
+
