@@ -26,7 +26,7 @@ Cambiar Avatar
         <form action="{% url 'cambiar_avatar' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <h4>Cambiar Avatar:</h4>
-            {{ formulario_de_avatar }}
+            {{ formulario_de_avatar.avatar }}
             <br>
             <input type="submit" class="btn btn-primary mt-3" value="Guardar Cambios">
         </form>

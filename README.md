@@ -20,3 +20,6 @@ Funcionalidades de 'usuarios':
 - Perfil: Pagina de información del perfil del usuario
 - Editar Perfil: Formularion de edición del perfil del usuario
 - Cambiar Avatar: Formulario para ver la imagen actual de avatar y cambiarla
+
+
+[video explicativo](https://youtu.be/05wba1rx2qE) de mi proyecto

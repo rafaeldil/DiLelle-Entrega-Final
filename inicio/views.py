@@ -61,7 +61,8 @@ def editar_libro(request, id):
             libro.save()
             return redirect('ver_libro', id=libro.id)
         
-    return render(request, 'inicio/editar_libro.html', {'form': form, 'libro': libro})
+        form = PortadaForm(request.POST, request.FILES, instance=libro)
+    return render(request, 'inicio/editar_libro.html', {'form': form, 'libro': libro, 'form_portada': PortadaForm(request.POST, request.FILES, instance=libro)})
 
 def ver_libro(request, id):
     libro = Libro.objects.get(id=id)

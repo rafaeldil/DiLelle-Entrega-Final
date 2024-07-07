@@ -1,22 +1,29 @@
 {% extends "base.html" %}
 
-{% block title_head %}
-Cambiar Contrasena
-{% endblock title_head %}
+{% block title_head %} Cambiar Contraseña {% endblock title_head%}
 
-{% block h1_header %}
-Cambiar Contrasena
-{% endblock h1_header %}
-
-
+{% block h1_header %} Cambiar Contraseña {% endblock h1_header %}
 {% block main %}
-
-<form action= {% url "cambiar_pass" %} method="POST">
+  <h3>Cambiar Contrasena</h3>
+  <form method="post">
     {% csrf_token %}
-
-    {{form}}
-
-    <input type="submit" value='Cambiar'>
-</form>
-
+    {{ form.non_field_errors }}
+    
+    <div>
+      {{ form.old_password.label_tag }} {{ form.old_password }}
+      {{ form.old_password.errors }}
+    </div>
+    
+    <div>
+      {{ form.new_password1.label_tag }} {{ form.new_password1 }}
+      {{ form.new_password1.errors }}
+    </div>
+    
+    <div>
+      {{ form.new_password2.label_tag }} {{ form.new_password2 }}
+      {{ form.new_password2.errors }}
+    </div>
+    
+    <input type="submit" value="Cambiar">
+  </form>
 {% endblock main %}

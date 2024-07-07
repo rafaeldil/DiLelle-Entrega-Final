@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'preentrega3',
     'productos',
     'usuarios',
+    'mensajeria',
 ]
 
 MIDDLEWARE = [
